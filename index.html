@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+    background:#0d0d0d;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+    font-family:Arial, sans-serif;
+}
+.calculator {
+    width:330px;
+    background:#141414;
+    padding:20px;
+    border-radius:18px;
+    box-shadow:0 0 25px rgba(0,0,0,0.6);
+}
+.display {
+    width:100%;
+    height:70px;
+    background:#1f1f1f;
+    color:#fff;
+    font-size:36px;
+    border:none;
+    border-radius:12px;
+    padding:10px;
+    box-sizing:border-box;
+    text-align:right;
+    margin-bottom:18px;
+}
+.buttons {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+button {
+    height:65px;
+    font-size:22px;
+    border:none;
+    border-radius:14px;
+    background:#222;
+    color:white;
+    transition:0.08s;
+}
+button:active {
+    transform:scale(0.92);
+    filter:brightness(1.3);
+}
+.op { background:#004c82; }
+.func { background:#333333; }
+.equal { background:#00802b; }
+</style>
+</head>
+<body>
+
+<div class="calculator">
+    <input type="text" id="display" class="display" disabled>
+
+    <div class="buttons">
+
+        <button class="func" onclick="clearDisplay()">C</button>
+        <button class="func" onclick="backspace()">⌫</button>
+        <button class="func" onclick="toggleSign()">±</button>
+        <button class="func" onclick="press('%')">%</button>
+
+        <button onclick="press('7')">7</button>
+        <button onclick="press('8')">8</button>
+        <button onclick="press('9')">9</button>
+        <button class="op" onclick="press('/')">÷</button>
+
+        <button onclick="press('4')">4</button>
+        <button onclick="press('5')">5</button>
+        <button onclick="press('6')">6</button>
+        <button class="op" onclick="press('*')">×</button>
+
+        <button onclick="press('1')">1</button>
+        <button onclick="press('2')">2</button>
+        <button onclick="press('3')">3</button>
+        <button class="op" onclick="press('-')">−</button>
+
+        <button onclick="press('.')">.</button>
+        <button onclick="press('0')">0</button>
+        <button class="equal" onclick="calculate()">=</button>
+        <button class="op" onclick="press('+')">+</button>
+
+    </div>
+</div>
+
+<script>
+function press(val){
+    document.getElementById("display").value += val;
+}
+function clearDisplay(){
+    document.getElementById("display").value = "";
+}
+function backspace(){
+    let d = document.getElementById("display");
+    d.value = d.value.slice(0, -1);
+}
+function toggleSign(){
+    let d = document.getElementById("display");
+    if (!d.value) return;
+    if (d.value.startsWith("-")) d.value = d.value.substring(1);
+    else d.value = "-" + d.value;
+}
+function calculate(){
+    let d = document.getElementById("display");
+    try { d.value = eval(d.value.replace('÷','/').replace('×','*')); }
+    catch { d.value = ""; }
+}
+</script>
+
+</body>
+</html>
